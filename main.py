@@ -1,8 +1,9 @@
 import random
+import hangman_art
+import word_list
 
 # Generate random word
-word = ["python", "developer", "keyboard", "notebook", "algorithm", "internet", "library", "function", "variable", "project"]
-one_word = random.choice(word)
+one_word = random.choice(word_list.word)
 
 # Generate blanks as the word
 blanks = len(one_word)
@@ -10,8 +11,11 @@ blank = list(blanks * "_")
 
 
 # Game logic
-chances = 6
+chances = 7
 letters_found = []
+
+print(f"Time to guess! This word has {blanks} letters!\n")
+print(f"You have {chances} chances left!\n")
 
 while chances > 0:
     user_input_letter = input("Write a letter!\n").lower()[:1] # User interaction
@@ -26,19 +30,21 @@ while chances > 0:
         if char == user_input_letter:
             blank[i] = user_input_letter # Changing blank for letter
             found = True
-            print("It's right!")
         
             
     if not found:
         chances -= 1
+        print(hangman_art.stages[chances])
         print(f"You're wrong, {chances} chances left.") 
+    else:
+        print("Yeap, it's right!")
     
     if "_" not in blank: # Verify if the user won
         print("You won!")
         break
 
     # print(one_word) # for debug
-    print(" / ".join(blank))
+    print(" | ".join(blank))
     
 if "_" in blank:
         print(f"You lose, the word is {one_word}")
